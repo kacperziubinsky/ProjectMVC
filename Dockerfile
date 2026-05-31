@@ -1,16 +1,15 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
-USER $APP_UID
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
 WORKDIR /app
 EXPOSE 8080
-EXPOSE 8081
 
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["MVCProject/MVCProject.csproj", "MVCProject/"]
-RUN dotnet restore "MVCProject/MVCProject.csproj"
+
+COPY ["MVCProject.csproj", "./"]
+RUN dotnet restore "MVCProject.csproj"
+
 COPY . .
-WORKDIR "/src/MVCProject"
 RUN dotnet build "MVCProject.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
@@ -19,5 +18,11 @@ RUN dotnet publish "MVCProject.csproj" -c $BUILD_CONFIGURATION -o /app/publish /
 
 FROM base AS final
 WORKDIR /app
+RUN mkdir -p /app/data
+
 COPY --from=publish /app/publish .
+
+ENV ASPNETCORE_URLS=http://+:8080
+ENV ConnectionStrings__DefaultConnection="Data Source=/app/data/app.db"
+
 ENTRYPOINT ["dotnet", "MVCProject.dll"]
