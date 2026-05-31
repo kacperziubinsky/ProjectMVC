@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices.JavaScript;
 using Microsoft.EntityFrameworkCore;
 
 namespace MVCProject.Models;
@@ -22,7 +21,8 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<Course>()
             .HasMany(c => c.Questions)
             .WithOne(c => c.Course)
-            .HasForeignKey(q => q.CourseId);
+            .HasForeignKey(q => q.CourseId)
+            .OnDelete(DeleteBehavior.Cascade);
 
     }
 }

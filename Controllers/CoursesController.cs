@@ -33,7 +33,9 @@ namespace MVCProject.Controllers
             }
 
             var course = await _context.Courses
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Include(c => c.Questions)
+                .FirstOrDefaultAsync(c => c.Id == id);
+            
             if (course == null)
             {
                 return NotFound();

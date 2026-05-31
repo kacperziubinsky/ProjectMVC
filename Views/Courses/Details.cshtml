@@ -4,21 +4,59 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>@Model.Name</h1>
 
 <div>
-    <h4>Course</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-    </dl>
+    <a asp-controller="Questions"
+       asp-action="Create"
+       asp-route-courseId="@Model.Id"
+       class="btn btn-primary">
+        Dodaj pytanie
+    </a>
+
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edytuj kurs</a> |
+    <a asp-action="Index">Powrót</a>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+<hr />
+
+<h3>Pytania</h3>
+
+@if (Model.Questions.Any())
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Pytanie</th>
+            <th>Poprawna odpowiedź</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var question in Model.Questions)
+        {
+            <tr>
+                <td>@question.Text</td>
+                <td>@question.CorrectAnswer</td>
+                <td>
+                    <a asp-controller="Questions"
+                       asp-action="Edit"
+                       asp-route-id="@question.Id">
+                        Edytuj
+                    </a>
+                    |
+                    <a asp-controller="Questions"
+                       asp-action="Delete"
+                       asp-route-id="@question.Id">
+                        Usuń
+                    </a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Ten kurs nie ma jeszcze żadnych pytań.</p>
+}

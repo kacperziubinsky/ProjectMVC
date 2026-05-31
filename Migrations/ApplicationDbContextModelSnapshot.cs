@@ -49,8 +49,7 @@ namespace MVCProject.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("CorrectAnswer")
-                        .IsRequired()
+                    b.Property<char>("CorrectAnswer")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("CourseId")

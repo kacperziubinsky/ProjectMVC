@@ -45,10 +45,14 @@ namespace MVCProject.Controllers
         }
 
         // GET: Questions/Create
-        public IActionResult Create()
+        public IActionResult Create(int courseId)
         {
-            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Id");
-            return View();
+            var question = new Question
+            {
+                CourseId = courseId
+            };
+
+            return View(question);
         }
 
         // POST: Questions/Create
@@ -56,16 +60,17 @@ namespace MVCProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Text,CourseId,A,B,C,D,CorrectAnswer")] Question question)
+        public async Task<IActionResult> Create([Bind("Text,CourseId,A,B,C,D,CorrectAnswer")] Question question)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                _context.Add(question);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return View(question);
             }
-            ViewData["CourseId"] = new SelectList(_context.Courses, "Id", "Id", question.CourseId);
-            return View(question);
+
+            _context.Questions.Add(question);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Details", "Courses", new { id = question.CourseId });
         }
 
         // GET: Questions/Edit/5
