@@ -29,27 +29,20 @@ public class MyAccountController : Controller
             return Challenge();
         }
 
-        var courses = await _context.Courses
-            .Include(c => c.Questions)
-            .OrderBy(c => c.Name)
-            .ToListAsync();
-
-        var progressRecords = await _context.CourseProgresses
-            .Where(cp => cp.UserId == user.Id)
-            .ToDictionaryAsync(cp => cp.CourseId);
-
-        var progressItems = courses.Select(course =>
-        {
-            progressRecords.TryGetValue(course.Id, out var progress);
-            return new CourseProgressItemViewModel
+        var progressItems = await _context.CourseProgresses
+            .Where(cp => cp.UserId == user.Id && cp.QuestionsCompleted > 0)
+            .Include(cp => cp.Course)
+            .ThenInclude(c => c.Questions)
+            .Select(cp => new CourseProgressItemViewModel
             {
-                CourseId = course.Id,
-                CourseName = course.Name,
-                QuestionsCompleted = progress?.QuestionsCompleted ?? 0,
-                TotalQuestions = course.Questions.Count,
-                LastUpdated = progress?.LastUpdated
-            };
-        }).ToList();
+                CourseId = cp.CourseId,
+                CourseName = cp.Course!.Name,
+                QuestionsCompleted = cp.QuestionsCompleted,
+                TotalQuestions = cp.Course.Questions.Count,
+                LastUpdated = cp.LastUpdated
+            })
+            .OrderBy(x => x.CourseName)
+            .ToListAsync();
 
         var model = new MyAccountViewModel
         {
@@ -167,26 +160,19 @@ public class MyAccountController : Controller
 
     private async Task<List<CourseProgressItemViewModel>> BuildProgressListAsync(string userId)
     {
-        var courses = await _context.Courses
-            .Include(c => c.Questions)
-            .OrderBy(c => c.Name)
-            .ToListAsync();
-
-        var progressRecords = await _context.CourseProgresses
-            .Where(cp => cp.UserId == userId)
-            .ToDictionaryAsync(cp => cp.CourseId);
-
-        return courses.Select(course =>
-        {
-            progressRecords.TryGetValue(course.Id, out var progress);
-            return new CourseProgressItemViewModel
+        return await _context.CourseProgresses
+            .Where(cp => cp.UserId == userId && cp.QuestionsCompleted > 0)
+            .Include(cp => cp.Course)
+            .ThenInclude(c => c.Questions)
+            .Select(cp => new CourseProgressItemViewModel
             {
-                CourseId = course.Id,
-                CourseName = course.Name,
-                QuestionsCompleted = progress?.QuestionsCompleted ?? 0,
-                TotalQuestions = course.Questions.Count,
-                LastUpdated = progress?.LastUpdated
-            };
-        }).ToList();
+                CourseId = cp.CourseId,
+                CourseName = cp.Course!.Name,
+                QuestionsCompleted = cp.QuestionsCompleted,
+                TotalQuestions = cp.Course.Questions.Count,
+                LastUpdated = cp.LastUpdated
+            })
+            .OrderBy(x => x.CourseName)
+            .ToListAsync();
     }
 }

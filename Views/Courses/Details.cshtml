@@ -31,7 +31,10 @@
         <thead>
         <tr>
             <th>Pytanie</th>
-            <th>Poprawna odpowiedź</th>
+            @if (User.IsInRole("Admin"))
+            {
+                <th>Poprawna odpowiedź</th>
+            }
             <th></th>
         </tr>
         </thead>
@@ -40,7 +43,19 @@
         {
             <tr>
                 <td>@question.Text</td>
-                <td>@question.CorrectAnswer</td>
+                @if (User.IsInRole("Admin"))
+                {
+                    string answear = question.CorrectAnswer switch
+                    {
+                        'A' => question.A,
+                        'B' => question.B,
+                        'C' => question.C,
+                        'D' => question.D,
+                        _ => ""
+                    };
+                    <td>@answear</td>
+
+                }
                 <td>
                     @if (User.IsInRole("Admin"))
                     {

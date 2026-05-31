@@ -1,35 +1,30 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\jakim\\source\\repos\\ProjectMVC\\MVCProject.csproj": {}
+    "/Users/kacper/Documents/STUDIA/PZ/MVCProject/MVCProject/MVCProject.csproj": {}
   },
   "projects": {
-    "C:\\Users\\jakim\\source\\repos\\ProjectMVC\\MVCProject.csproj": {
+    "/Users/kacper/Documents/STUDIA/PZ/MVCProject/MVCProject/MVCProject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jakim\\source\\repos\\ProjectMVC\\MVCProject.csproj",
+        "projectUniqueName": "/Users/kacper/Documents/STUDIA/PZ/MVCProject/MVCProject/MVCProject.csproj",
         "projectName": "MVCProject",
-        "projectPath": "C:\\Users\\jakim\\source\\repos\\ProjectMVC\\MVCProject.csproj",
-        "packagesPath": "C:\\Users\\jakim\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jakim\\source\\repos\\ProjectMVC\\obj\\",
+        "projectPath": "/Users/kacper/Documents/STUDIA/PZ/MVCProject/MVCProject/MVCProject.csproj",
+        "packagesPath": "/Users/kacper/.nuget/packages/",
+        "outputPath": "/Users/kacper/Documents/STUDIA/PZ/MVCProject/MVCProject/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\jakim\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/kacper/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net10.0": {
+            "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {}
           }
@@ -44,10 +39,11 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "10.0.300"
       },
       "frameworks": {
         "net10.0": {
+          "framework": "net10.0",
           "targetAlias": "net10.0",
           "dependencies": {
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
@@ -108,7 +104,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.300/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",

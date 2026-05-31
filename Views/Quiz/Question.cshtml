@@ -1,0 +1,36 @@
+@model MVCProject.Models.Question
+
+<h1>@ViewBag.CourseName</h1>
+
+<p>Pytanie @(ViewBag.Index + 1) z @ViewBag.Total</p>
+
+<h3>@Model.Text</h3>
+
+<form asp-action="Answer" method="post">
+    <input type="hidden" name="courseId" value="@ViewBag.CourseId" />
+    <input type="hidden" name="index" value="@ViewBag.Index" />
+
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="selectedAnswer" value="A" required />
+        <label class="form-check-label">@Model.A</label>
+    </div>
+
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="selectedAnswer" value="B" />
+        <label class="form-check-label">@Model.B</label>
+    </div>
+
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="selectedAnswer" value="C" />
+        <label class="form-check-label">@Model.C</label>
+    </div>
+
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="selectedAnswer" value="D" />
+        <label class="form-check-label">@Model.D</label>
+    </div>
+
+    <button type="submit" class="btn btn-success mt-3">
+        Dalej
+    </button>
+</form>

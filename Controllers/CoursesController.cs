@@ -25,6 +25,7 @@ namespace MVCProject.Controllers
             return View(await _context.Courses.ToListAsync());
         }
 
+        
         // GET: Courses/Details/5
         public async Task<IActionResult> Details(int? id)
         {

@@ -27,7 +27,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         modelBuilder.Entity<CourseProgress>()
             .HasIndex(cp => new { cp.UserId, cp.CourseId })
             .IsUnique();
-
+ 
         modelBuilder.Entity<CourseProgress>()
             .HasOne(cp => cp.User)
             .WithMany(u => u.CourseProgresses)

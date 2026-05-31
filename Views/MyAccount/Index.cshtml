@@ -77,32 +77,8 @@
                                 Ostatnia aktualizacja: @item.LastUpdated.Value.ToLocalTime()
                             </small>
                         }
+       
 
-                        @if (item.TotalQuestions > 0)
-                        {
-                            <form asp-action="UpdateProgress" method="post" class="row g-2 align-items-end">
-                                @Html.AntiForgeryToken()
-                                <input type="hidden" name="courseId" value="@item.CourseId" />
-                                <div class="col-auto">
-                                    <label class="form-label">Ukończone pytania</label>
-                                    <input type="number"
-                                           name="questionsCompleted"
-                                           class="form-control"
-                                           min="0"
-                                           max="@item.TotalQuestions"
-                                           value="@item.QuestionsCompleted" />
-                                </div>
-                                <div class="col-auto">
-                                    <button type="submit" class="btn btn-outline-primary btn-sm">
-                                        Aktualizuj
-                                    </button>
-                                </div>
-                            </form>
-                        }
-                        else
-                        {
-                            <small class="text-muted">Kurs nie ma jeszcze pytań.</small>
-                        }
 
                         <a asp-controller="Courses" asp-action="Details" asp-route-id="@item.CourseId"
                            class="btn btn-link btn-sm ps-0 mt-2">

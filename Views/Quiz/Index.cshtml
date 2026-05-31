@@ -1,0 +1,35 @@
+@model IEnumerable<MVCProject.Models.Course>
+
+<h1>Dostępne kursy</h1>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-warning">
+        @TempData["Error"]
+    </div>
+}
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Nazwa kursu</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var course in Model)
+    {
+        <tr>
+            <td>@course.Name</td>
+            <td>
+                <a asp-controller="Quiz"
+                   asp-action="Start"
+                   asp-route-id="@course.Id"
+                   class="btn btn-primary">
+                    Rozpocznij
+                </a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
