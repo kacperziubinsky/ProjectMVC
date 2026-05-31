@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -45,6 +46,7 @@ namespace MVCProject.Controllers
         }
 
         // GET: Questions/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create(int courseId)
         {
             var question = new Question
@@ -60,6 +62,7 @@ namespace MVCProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Text,CourseId,A,B,C,D,CorrectAnswer")] Question question)
         {
             if (!ModelState.IsValid)
@@ -74,6 +77,7 @@ namespace MVCProject.Controllers
         }
 
         // GET: Questions/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -95,6 +99,7 @@ namespace MVCProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Text,CourseId,A,B,C,D,CorrectAnswer")] Question question)
         {
             if (id != question.Id)
@@ -127,6 +132,7 @@ namespace MVCProject.Controllers
         }
 
         // GET: Questions/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -148,6 +154,7 @@ namespace MVCProject.Controllers
         // POST: Questions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var question = await _context.Questions.FindAsync(id);

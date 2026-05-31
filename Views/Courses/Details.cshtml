@@ -7,14 +7,17 @@
 <h1>@Model.Name</h1>
 
 <div>
-    <a asp-controller="Questions"
-       asp-action="Create"
-       asp-route-courseId="@Model.Id"
-       class="btn btn-primary">
-        Dodaj pytanie
-    </a>
-
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edytuj kurs</a> |
+    @if (User.IsInRole("Admin"))
+    {
+        <a asp-controller="Questions"
+           asp-action="Create"
+           asp-route-courseId="@Model.Id"
+           class="btn btn-primary">
+            Dodaj pytanie
+        </a>
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edytuj kurs</a>
+        <span>|</span>
+    }
     <a asp-action="Index">Powrót</a>
 </div>
 
@@ -39,17 +42,20 @@
                 <td>@question.Text</td>
                 <td>@question.CorrectAnswer</td>
                 <td>
-                    <a asp-controller="Questions"
-                       asp-action="Edit"
-                       asp-route-id="@question.Id">
-                        Edytuj
-                    </a>
-                    |
-                    <a asp-controller="Questions"
-                       asp-action="Delete"
-                       asp-route-id="@question.Id">
-                        Usuń
-                    </a>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-controller="Questions"
+                           asp-action="Edit"
+                           asp-route-id="@question.Id">
+                            Edytuj
+                        </a>
+                        <span>|</span>
+                        <a asp-controller="Questions"
+                           asp-action="Delete"
+                           asp-route-id="@question.Id">
+                            Usuń
+                        </a>
+                    }
                 </td>
             </tr>
         }

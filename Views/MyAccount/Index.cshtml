@@ -1,0 +1,120 @@
+@model MVCProject.Models.ViewModels.MyAccountViewModel
+@{
+    ViewData["Title"] = "Moje Konto";
+}
+
+<h1>Moje Konto</h1>
+
+@if (TempData["SuccessMessage"] is string successMessage)
+{
+    <div class="alert alert-success">@successMessage</div>
+}
+
+<div class="row">
+    <div class="col-lg-6 mb-4">
+        <h2>Edycja danych</h2>
+        <form asp-action="Index" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="Profile.Email" class="form-label"></label>
+                <input asp-for="Profile.Email" class="form-control" />
+                <span asp-validation-for="Profile.Email" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Profile.DisplayName" class="form-label"></label>
+                <input asp-for="Profile.DisplayName" class="form-control" />
+                <span asp-validation-for="Profile.DisplayName" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Profile.PhoneNumber" class="form-label"></label>
+                <input asp-for="Profile.PhoneNumber" class="form-control" />
+                <span asp-validation-for="Profile.PhoneNumber" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Profile.NewPassword" class="form-label"></label>
+                <input asp-for="Profile.NewPassword" class="form-control" autocomplete="new-password" />
+                <span asp-validation-for="Profile.NewPassword" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Profile.ConfirmNewPassword" class="form-label"></label>
+                <input asp-for="Profile.ConfirmNewPassword" class="form-control" autocomplete="new-password" />
+                <span asp-validation-for="Profile.ConfirmNewPassword" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+        </form>
+    </div>
+
+    <div class="col-lg-6">
+        <h2>Postęp kursów</h2>
+        @if (!Model.CourseProgress.Any())
+        {
+            <p>Brak kursów w systemie.</p>
+        }
+        else
+        {
+            @foreach (var item in Model.CourseProgress)
+            {
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.CourseName</h5>
+                        <p class="card-text mb-1">
+                            Ukończone pytania: @item.QuestionsCompleted / @item.TotalQuestions
+                            (@item.PercentComplete%)
+                        </p>
+                        <div class="progress mb-3" role="progressbar"
+                             aria-valuenow="@item.PercentComplete" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-bar" style="width: @item.PercentComplete%"></div>
+                        </div>
+                        @if (item.LastUpdated.HasValue)
+                        {
+                            <small class="text-muted d-block mb-2">
+                                Ostatnia aktualizacja: @item.LastUpdated.Value.ToLocalTime()
+                            </small>
+                        }
+
+                        @if (item.TotalQuestions > 0)
+                        {
+                            <form asp-action="UpdateProgress" method="post" class="row g-2 align-items-end">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="courseId" value="@item.CourseId" />
+                                <div class="col-auto">
+                                    <label class="form-label">Ukończone pytania</label>
+                                    <input type="number"
+                                           name="questionsCompleted"
+                                           class="form-control"
+                                           min="0"
+                                           max="@item.TotalQuestions"
+                                           value="@item.QuestionsCompleted" />
+                                </div>
+                                <div class="col-auto">
+                                    <button type="submit" class="btn btn-outline-primary btn-sm">
+                                        Aktualizuj
+                                    </button>
+                                </div>
+                            </form>
+                        }
+                        else
+                        {
+                            <small class="text-muted">Kurs nie ma jeszcze pytań.</small>
+                        }
+
+                        <a asp-controller="Courses" asp-action="Details" asp-route-id="@item.CourseId"
+                           class="btn btn-link btn-sm ps-0 mt-2">
+                            Przejdź do kursu
+                        </a>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
