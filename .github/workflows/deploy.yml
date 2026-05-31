@@ -45,12 +45,13 @@ jobs:
             mkdir -p data
 
             docker run -d \
-              --name mvcproject \
-              --restart always \
-              -p 8080:8080 \
-              -v /opt/mvcproject/data:/app/data \
-              -e ASPNETCORE_URLS=http://+:8080 \
-              -e "ConnectionStrings__DefaultConnection=Data Source=/app/data/app.db" \
-              mvcproject:latest
+            --name mvcproject \
+            --restart always \
+            -p 8080:8080 \
+            -v /opt/mvcproject/data:/app/data \
+            -e ASPNETCORE_URLS=http://+:8080 \
+            -e ASPNETCORE_ENVIRONMENT=Development \
+            -e "ConnectionStrings__DefaultConnection=Data Source=/app/data/app.db" \
+            mvcproject:latest
 
             docker image prune -f
